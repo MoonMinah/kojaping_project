@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kosa.kojaping.mapper.AccommodationMapper">
+
+    <select id="findAccommodationByNo" resultType="com.kosa.kojaping.entity.Accommodation">
+        SELECT *
+        FROM Accommodation
+        WHERE accommodationNo = #{accommodationNo}
+    </select>
+
+    <select id="LocationByNo" resultType="com.kosa.kojaping.entity.Location">
+        SELECT *
+        FROM Location
+        WHERE locationNo = #{locationNo}
+    </select>
+
+
+
+    <select id="selectAccommodationByMemberNo" parameterType="String" resultType="com.kosa.kojaping.entity.Accommodation">
+        SELECT accommodationNo, memberNo, title, description, pricePerNight, latitude, longitude, postcode, address, detailAddress, extraAddress, maxGuest, bedroomCnt, bedCnt, bathCnt, locationNo, status
+        FROM accommodation
+        WHERE memberNo = #{memberNo}
+        AND status = '활성'
+    </select>
+
+    <select id="getAllAccommodations" resultType="com.kosa.kojaping.entity.Accommodation">
+        SELECT *
+        FROM Accommodation;
+    </select>
+
+    <insert id="insertAccommodation" parameterType="com.kosa.kojaping.entity.Accommodation">
+        INSERT INTO accommodation (memberNo, title, description, pricePerNight, latitude, longitude, postcode, address, detailAddress, extraAddress, maxGuest, bedroomCnt, bedCnt, bathCnt, locationNo) VALUES (#{memberNo}, #{title}, #{description}, #{pricePerNight}, #{latitude}, #{longitude}, #{postcode}, #{address}, #{detailAddress}, #{extraAddress}, #{maxGuest}, #{bedroomCnt}, #{bedCnt}, #{bathCnt}, #{locationNo})
+        <selectKey keyProperty="accommodationNo" resultType="String" order="AFTER">
+            SELECT accommodationNo
+            FROM accommodation
+            WHERE memberNo = #{memberNo}
+            ORDER BY createdAt DESC
+            LIMIT 1
+        </selectKey>
+    </insert>
+
+    <!-- 편의시설 등록 -->
+    <insert id="insertAccommodationAmenity">
+        INSERT INTO AccommodationAmenity (accommodationNo, amenityNo)
+        VALUES (#{accommodationNo}, #{amenityNo})
+    </insert>
+
+
+    <insert id="insertAccommodationImage" parameterType="com.kosa.kojaping.entity.AccommodationImage">
+        INSERT INTO accommodationImage (accommodationNo, imageUrl) VALUES (#{accommodationNo}, #{imageUrl})
+    </insert>
+
+    <select id="selectAccommodationImageUrlByAccommodationNo" parameterType="String" resultType="String">
+        SELECT imageUrl FROM accommodationImage WHERE accommodationNo = #{accommodationNo}
+    </select>
+
+    <update id="updateAccommodationStatusForDelete" parameterType="String">
+        UPDATE accommodation SET status = '삭제' WHERE accommodationNo = #{accommodationNo}
+    </update>
+
+    <select id="selectAccommodationByAddressAndMaxGuest" parameterType="map" resultType="Accommodation">
+        SELECT *
+        FROM accommodation
+        WHERE address = #{address}
+        AND maxGuest >= #{maxGuest}
+        AND status = '활성'
+    </select>
+</mapper>

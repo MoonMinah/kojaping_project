@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kosa.kojaping.mapper.MemberMapper">
+    <insert id="insertMember" parameterType="com.kosa.kojaping.entity.Member">
+        INSERT INTO member (userId, userName, password, email, phone, roleNo) VALUES (#{userId}, #{userName}, #{password}, #{email}, #{phone}, #{roleNo})
+    </insert>
+
+    <select id="selectMemberByUserId" parameterType="String" resultType="com.kosa.kojaping.entity.Member">
+        SELECT m.*, r.roleName FROM member m JOIN roles r ON m.roleNo = r.roleNo WHERE m.userId = #{userId}
+    </select>
+
+    <update id="updateMember" parameterType="com.kosa.kojaping.entity.Member">
+        UPDATE member SET password = #{password}, userName = #{userName}, email = #{email}, phone = #{phone} WHERE userId = #{userId}
+    </update>
+
+    <update id="updateMemberStatusByUserId" parameterType="String">
+        UPDATE member SET status = '탈퇴' WHERE userId = #{userId}
+    </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kosa.kojaping.mapper.PaymentMapper">
+
+    <insert id="insertPayment" parameterType="com.kosa.kojaping.entity.Payment" useGeneratedKeys="true" keyProperty="paymentNo">
+        INSERT INTO Payment (reservationNo, paymentMethod, paymentStatus, paymentAmount, paymentDate)
+        VALUES (#{reservationNo}, #{paymentMethod}, #{paymentStatus}, #{paymentAmount}, NOW())
+    </insert>
+
+    <!-- 특정 예약 번호에 대한 결제 정보 조회 -->
+    <select id="selectPaymentsByReservationNo" resultType="com.kosa.kojaping.entity.Payment">
+        SELECT paymentNo, reservationNo, paymentMethod, paymentStatus, paymentAmount, paymentDate
+        FROM Payment
+        WHERE reservationNo = #{reservationNo}
+    </select>
+
+
+    <select id="selectPaymentDetail" resultType="com.kosa.kojaping.entity.Payment">
+        SELECT *
+        FROM Payment
+        WHERE paymentNo = #{paymentNo}
+    </select>
+
+</mapper>

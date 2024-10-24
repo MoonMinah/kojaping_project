@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kosa.kojaping.mapper.ReservationMapper">
+<!--예약 정보 등록-->
+    <insert id="insertReservation" parameterType="com.kosa.kojaping.entity.Reservation" useGeneratedKeys="true" keyColumn="reservationNo" keyProperty="reservationNo">
+        INSERT INTO Reservation (reservationNo, memberNo, accommodationNo, checkIn, checkOut, totalPrice, reservationStatus, createdAt)
+        VALUES (#{reservationNo} ,#{memberNo}, #{accommodationNo}, #{checkIn}, #{checkOut}, #{totalPrice}, #{reservationStatus}, NOW())
+    </insert>
+
+    <!-- memberNo로 예약한 숙소 목록 조회 -->
+    <select id="selectReservationsByMemberNo" parameterType="String" resultType="com.kosa.kojaping.entity.Reservation">
+        SELECT r.reservationNo, r.accommodationNo, r.checkIn, r.checkOut, r.totalPrice, a.title, a.address, r.memberNo
+        FROM Reservation r
+        JOIN Accommodation a ON r.accommodationNo = a.accommodationNo
+        WHERE r.memberNo = #{memberNo}
+    </select>
+
+    <select id="selectReservationNo" resultType="string">
+        SELECT reservationNo
+        FROM Reservation
+        WHERE createdAt = (
+        SELECT MAX(createdAt)
+        FROM Reservation
+        WHERE memberNo = #{memberNo}
+        );
+    </select>
+
+    <select id="selectReservationNoByObject" resultType="com.kosa.kojaping.entity.Reservation">
+        SELECT *
+        FROM Reservation
+        WHERE createdAt = (
+        SELECT MAX(createdAt)
+        FROM Reservation
+        WHERE memberNo = #{memberNo}
+        );
+    </select>
+
+
+    <select id="findByCheckInLessThanEqualAndCheckOutGreaterThanEqual" resultType="com.kosa.kojaping.entity.Reservation">
+        SELECT * FROM reservations
+        WHERE check_in BETWEEN #{checkIn} AND #{checkOut}
+    </select>
+
+
+
+
+
+</mapper>

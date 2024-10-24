@@ -1,0 +1,118 @@
+/* 기본적인 레이아웃 및 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* 사이드바 스타일 */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #333;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #444;
+    text-align: center;
+}
+
+#sidebar ul.components {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#sidebar ul li {
+    padding: 15px;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+#sidebar ul li a {
+    color: #ddd;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+#sidebar ul li a i {
+    margin-right: 10px;
+}
+
+#sidebar ul li a:hover {
+    color: #fff;
+    background: #575757;
+}
+
+#sidebar ul li.active > a,
+#sidebar ul li.active > a:hover {
+    background: #0069d9;
+    color: #fff;
+}
+
+#sidebar ul ul {
+    padding-left: 30px;
+}
+
+/* 콘텐츠 영역 스타일 */
+#content {
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    margin: 0;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-content p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #sidebar {
+        min-width: 100px;
+    }
+
+    #sidebar ul li a {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    #content {
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+}
